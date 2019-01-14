@@ -17,6 +17,8 @@ background_image_path = "../material/image/background.png"
 background = pygame.image.load(background_image_path).convert()
 # 游戏结束背景图
 gameover_image = pygame.image.load("../material/image/game_over.png")
+#游戏开始背景图
+gamestart_image = pygame.image.load("../material/image/flyings-start.jpg")
 # 绘制矩形
 # pygame.draw.rect(background, (0,0,255), (0, 0, 480, 100),2)
 # 绘制Money文本
@@ -54,22 +56,17 @@ color_white = (255, 255, 255)
 maxScore = 0
 
 
-def showWelcome(gameStart, gameOver):
-    for event in pygame.event.get():
-        if event.type in (pygame.QUIT, pygame.KEYDOWN):
-            pygame.quit()
-            exit()
-        if event.type == pygame.MOUSEBUTTONUP:
-            if gameStart.is_over():
-                return False
-            elif gameOver.is_over():
-                pygame.quit()
-                exit()
-    screen.blit(background, (0, 0))
-    screen.blit(logo, ((bg_size[0] - logo.get_width()) / 2, 100))
-    gameStart.render(screen)
-    gameOver.render(screen)
-    return True
+def showWelcome():
+    while True:
+        screen.blit(gamestart_image,(0,0))
+        x,y = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if x >= 90 and x <= 300 and y >= 300 and y <= 360:
+                    run()
+        pygame.display.update()
 
 
 def run():
@@ -201,7 +198,7 @@ def run():
                         energy_color = color_green
                         pygame.draw.line(screen, energy_color, (each.rect.left, each.rect.top + 100),
                                          (each.rect.left + (each.rect.right - each.rect.left) * energy_remain, each.rect.top + 100), 3)
-                    elif energy_remain < 0.2 and energy_remain > 0:
+                    elif energy_remain <= 0.2 and energy_remain > 0:
                         pygame.draw.line(screen, color_black, (each.rect.left, each.rect.top + 100),
                                          (each.rect.right, each.rect.top + 100), 3)
                         energy_color = color_red
@@ -359,7 +356,7 @@ def run():
                 y = 0
                 # 绘制英雄飞机
                 # screen.blit(ourplane.image_one,ourplane.rect)
-
+        #判断游戏是否结束
         elif game_over:
             score = int(text)
             if score > maxScore:
@@ -376,4 +373,4 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    showWelcome()

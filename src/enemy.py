@@ -37,7 +37,7 @@ class SmallEnemy(pygame.sprite.Sprite):
 
 
 class MiddleEnemy(pygame.sprite.Sprite):
-    energy = 20
+    energy = 16
 
     def __init__(self,bg_size):
         super(MiddleEnemy, self).__init__()
